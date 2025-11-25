@@ -32,6 +32,7 @@ Build up the four foundation piles (one for each suit) from Ace to King in ascen
 ### Core Gameplay
 - **Draw 3 Cards**: Classic "draw 3" variant - draw 3 cards at a time from stock
 - **Sequence Moving**: Move entire sequences of cards between tableau piles
+- **Full Undo Support**: Undo any move to restore the previous game state
 - **Auto Bot**: Watch an AI bot play automatically with intelligent move selection
 - **Smart Bot Logic**: Bot automatically redeals if it cycles through stock 3 times without progress
 
@@ -46,6 +47,7 @@ Build up the four foundation piles (one for each suit) from Ace to King in ascen
 ### Game Controls
 - **New Game**: Start a fresh game
 - **Start/Stop Bot**: Toggle AI bot to play automatically
+- **Undo**: Undo your last move (works for all move types)
 - **Hint**: Get a suggestion for your next move
 - **Layout Toggle**: Switch between card sizes (Normal → Compact → Ultra-Compact)
 - **Stock Pile**: Click to draw 3 cards
@@ -72,21 +74,38 @@ Build up the four foundation piles (one for each suit) from Ace to King in ascen
 ### File Structure
 ```
 solitaire/
-├── index.html      # Main HTML structure
-├── styles.css      # Billionaire Mindset theme styling and animations
-├── script.js       # Complete game logic, bot AI, and functionality
-├── README.md       # This file
-└── ace-cards.png   # Additional assets (if any)
+├── index.html          # Main HTML structure
+├── styles.css          # Billionaire Mindset theme styling and animations
+├── script.js           # Complete game logic, bot AI, and functionality
+├── manifest.json       # PWA manifest for app installation
+├── service-worker.js   # Service worker for offline functionality
+├── ace-cards.png       # Favicon and app icon
+└── README.md           # This file
 ```
+
+### PWA (Progressive Web App)
+This game is a Progressive Web App that can be installed on your device:
+- **Installable**: Add to home screen on mobile or desktop
+- **Offline Play**: Works offline after first visit
+- **App-like Experience**: Runs as a standalone app
+- **Favicon**: Uses ace-cards.png as the app icon
 
 ## 🎯 Game Controls
 
 - **New Game**: Start a fresh game
 - **Start Bot / Stop Bot**: Toggle AI bot to play automatically
+- **Undo**: Undo your last move - restores cards to previous positions, score, and move count
 - **Hint**: Get a suggestion for your next move
 - **Layout**: Toggle between Normal, Compact (largest), and Ultra-Compact card sizes
 - **Stock Pile**: Click to draw 3 cards at a time
 - **Waste Pile**: Click top card to automatically move it
+
+### Undo Feature
+The undo button allows you to:
+- Undo any move (foundation, tableau, stock draws)
+- Restore the exact game state before the last move
+- Undo multiple moves in sequence
+- Automatically prevents undo during card dealing or while bot is active
 
 ## 🎨 Design Features
 
@@ -163,14 +182,13 @@ The bot uses intelligent move prioritization:
 
 ## 🐛 Known Limitations
 
-- Undo functionality is planned for future updates
 - Game state persistence between sessions coming soon
 - Mobile drag and drop may require touch optimization
 
 ## 🎯 Future Enhancements
 
 Potential features for future updates:
-- Undo/Redo functionality
+- Redo functionality (currently only undo is available)
 - Game state saving (localStorage)
 - Different solitaire variants
 - Sound effects

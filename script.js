@@ -350,6 +350,9 @@ class SolitaireGame {
 
     // Draw card from stock (3 cards at a time)
     drawFromStock() {
+        // Save state before move
+        const stateBeforeMove = this.saveGameState();
+        
         if (this.stock.length === 0) {
             // Reset stock from waste
             if (this.waste.length > 0) {
@@ -377,7 +380,7 @@ class SolitaireGame {
                 
                 this.stock = [...this.waste.reverse()];
                 this.waste = [];
-                this.addMove('Reset stock from waste');
+                this.addMove('Reset stock from waste', stateBeforeMove);
             }
         } else {
             // Draw 3 cards at a time (or however many are left)
@@ -387,7 +390,7 @@ class SolitaireGame {
                 card.faceUp = true;
                 this.waste.push(card);
             }
-            this.addMove(`Draw ${cardsToDraw} card${cardsToDraw > 1 ? 's' : ''} from stock`);
+            this.addMove(`Draw ${cardsToDraw} card${cardsToDraw > 1 ? 's' : ''} from stock`, stateBeforeMove);
         }
 
         this.updateDisplay();
@@ -445,6 +448,9 @@ class SolitaireGame {
 
     // Move card to foundation
     moveToFoundation(card, source) {
+        // Save state before move
+        const stateBeforeMove = this.saveGameState();
+        
         this.foundations[card.suit].push(card);
 
         if (source === 'waste') {
@@ -459,13 +465,16 @@ class SolitaireGame {
             this.cardsUsedThisCycle = true;
         }
 
-        this.addMove(`Move ${card.value}${card.suit} to foundation`);
+        this.addMove(`Move ${card.value}${card.suit} to foundation`, stateBeforeMove);
         this.updateDisplay();
         this.checkWinCondition();
     }
 
     // Move card(s) to tableau
     moveToTableau(card, pileIndex, source) {
+        // Save state before move
+        const stateBeforeMove = this.saveGameState();
+        
         if (source === 'waste') {
             this.tableau[pileIndex].push(card);
             this.waste.pop();
@@ -481,7 +490,7 @@ class SolitaireGame {
             this.cardsUsedThisCycle = true;
         }
 
-        this.addMove(`Move ${card.value}${card.suit} to tableau`);
+        this.addMove(`Move ${card.value}${card.suit} to tableau`, stateBeforeMove);
         this.updateDisplay();
     }
 
@@ -493,13 +502,55 @@ class SolitaireGame {
         }
     }
 
-    // Add move to history
-    addMove(description) {
+    // Save current game state
+    saveGameState() {
+        return {
+            stock: JSON.parse(JSON.stringify(this.stock)),
+            waste: JSON.parse(JSON.stringify(this.waste)),
+            foundations: {
+                hearts: JSON.parse(JSON.stringify(this.foundations.hearts)),
+                diamonds: JSON.parse(JSON.stringify(this.foundations.diamonds)),
+                clubs: JSON.parse(JSON.stringify(this.foundations.clubs)),
+                spades: JSON.parse(JSON.stringify(this.foundations.spades))
+            },
+            tableau: this.tableau.map(pile => JSON.parse(JSON.stringify(pile))),
+            score: this.score,
+            moves: this.moves,
+            stockCycles: this.stockCycles,
+            cardsUsedThisCycle: this.cardsUsedThisCycle
+        };
+    }
+
+    // Restore game state
+    restoreGameState(state) {
+        this.stock = state.stock;
+        this.waste = state.waste;
+        this.foundations = state.foundations;
+        this.tableau = state.tableau;
+        this.score = state.score;
+        this.moves = state.moves;
+        this.stockCycles = state.stockCycles;
+        this.cardsUsedThisCycle = state.cardsUsedThisCycle;
+        
+        // Hide win modal if it's open (in case we're undoing a winning move)
+        document.getElementById('game-over-modal').classList.add('hidden');
+        
+        // Make sure timer is running (in case we undid a win)
+        if (!this.gameTimer) {
+            this.startTimer();
+        }
+        
+        this.updateDisplay();
+    }
+
+    // Add move to history (state should be saved before calling this)
+    addMove(description, stateBeforeMove) {
         this.moves++;
         this.score += 10;
         this.moveHistory.push({
             description,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            stateBeforeMove: stateBeforeMove
         });
     }
 
@@ -863,11 +914,28 @@ class SolitaireGame {
 
     // Undo last move
     undoMove() {
-        if (this.moveHistory.length === 0) return;
+        if (this.moveHistory.length === 0) {
+            this.showHint('No moves to undo.');
+            return;
+        }
 
-        // Simple undo - just reset the game for now
-        // In a full implementation, you'd store the game state for each move
-        this.showHint('Undo functionality is not implemented in this version.');
+        // Don't allow undo during dealing or if bot is active
+        if (this.isDealing) {
+            this.showHint('Cannot undo while cards are being dealt.');
+            return;
+        }
+
+        if (this.botActive) {
+            this.showHint('Cannot undo while bot is playing. Stop the bot first.');
+            return;
+        }
+
+        // Get the last move and restore the state before it
+        const lastMove = this.moveHistory.pop();
+        this.restoreGameState(lastMove.stateBeforeMove);
+        
+        // Update move counter and score (they were incremented in addMove)
+        // The state already has the correct values, so we're good
     }
 
     // Show hint
@@ -965,7 +1033,7 @@ class SolitaireGame {
         this.waste = [];
         this.foundations = { hearts: [], diamonds: [], clubs: [], spades: [] };
         this.tableau = [[], [], [], [], [], [], []];
-        this.moveHistory = [];
+        this.moveHistory = []; // Clear undo history on new game
         this.score = 0;
         this.moves = 0;
         this.startTime = Date.now();
