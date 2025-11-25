@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solitaire - Billionaire Mindset</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a3d1a">
+    <meta name="description" content="A luxurious Klondike Solitaire card game with Billionaire Mindset theme">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Solitaire">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="ace-cards.png">
+    <link rel="apple-touch-icon" href="ace-cards.png">
+    
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>Solitaire</h1>
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">Moves:</span>
+                    <span id="move-count">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Time:</span>
+                    <span id="timer">00:00</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Score:</span>
+                    <span id="score">0</span>
+                </div>
+            </div>
+            <div class="game-controls">
+                <button id="new-game-btn" class="btn btn-primary">New Game</button>
+                <button id="bot-btn" class="btn btn-primary">Start Bot</button>
+                <button id="undo-btn" class="btn btn-secondary">Undo</button>
+                <button id="hint-btn" class="btn btn-secondary">Hint</button>
+                <button id="layout-btn" class="btn btn-secondary">Compact</button>
+            </div>
+        </header>
+
+        <main class="game-board">
+            <!-- Top row: all piles arranged horizontally from left to right -->
+            <div class="top-row">
+                <div class="stock-pile" id="stock-pile">
+                    <div class="card-back"></div>
+                </div>
+                <div class="waste-pile" id="waste-pile"></div>
+                <div class="foundation-pile" data-suit="hearts" id="foundation-hearts"></div>
+                <div class="foundation-pile" data-suit="diamonds" id="foundation-diamonds"></div>
+                <div class="foundation-pile" data-suit="clubs" id="foundation-clubs"></div>
+                <div class="foundation-pile" data-suit="spades" id="foundation-spades"></div>
+            </div>
+
+            <!-- Tableau Piles (7 columns) -->
+            <div class="tableau-area">
+                <div class="tableau-pile" data-pile="0" id="tableau-0"></div>
+                <div class="tableau-pile" data-pile="1" id="tableau-1"></div>
+                <div class="tableau-pile" data-pile="2" id="tableau-2"></div>
+                <div class="tableau-pile" data-pile="3" id="tableau-3"></div>
+                <div class="tableau-pile" data-pile="4" id="tableau-4"></div>
+                <div class="tableau-pile" data-pile="5" id="tableau-5"></div>
+                <div class="tableau-pile" data-pile="6" id="tableau-6"></div>
+            </div>
+        </main>
+
+        <!-- Game Over Modal -->
+        <div id="game-over-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Congratulations!</h2>
+                <p>You've won the game!</p>
+                <div class="final-stats">
+                    <p>Final Score: <span id="final-score">0</span></p>
+                    <p>Total Moves: <span id="final-moves">0</span></p>
+                    <p>Time: <span id="final-time">00:00</span></p>
+                </div>
+                <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+            </div>
+        </div>
+
+        <!-- Hint Modal -->
+        <div id="hint-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>Hint</h2>
+                <p id="hint-text">No hints available.</p>
+                <button id="close-hint-btn" class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
