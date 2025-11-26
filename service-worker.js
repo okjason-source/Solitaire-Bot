@@ -8,6 +8,10 @@ const urlsToCache = [
   './favicon.png',
   './icon-192.png',
   './icon-512.png',
+  './undo-icon.svg',
+  './lightbulb-icon.svg',
+  './play-icon.svg',
+  './stop-icon.svg',
   './manifest.json',
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
 ];

@@ -30,25 +30,17 @@
     <div class="game-container">
         <header class="game-header">
             <h1>Solitaire</h1>
-            <div class="game-stats">
-                <div class="stat">
-                    <span class="stat-label">Moves:</span>
-                    <span id="move-count">0</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Time:</span>
-                    <span id="timer">00:00</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Score:</span>
-                    <span id="score">0</span>
-                </div>
-            </div>
             <div class="game-controls">
                 <button id="new-game-btn" class="btn btn-primary">New Game</button>
-                <button id="bot-btn" class="btn btn-primary">Start Bot</button>
-                <button id="undo-btn" class="btn btn-secondary">Undo</button>
-                <button id="hint-btn" class="btn btn-secondary">Hint</button>
+                <button id="bot-btn" class="btn btn-primary" title="Start Bot">
+                    <img src="./play-icon.svg" alt="Start Bot" class="bot-icon" style="width: 20px; height: 20px; display: block;">
+                </button>
+                <button id="undo-btn" class="btn btn-secondary" title="Undo">
+                    <img src="./undo-icon.svg" alt="Undo" style="width: 20px; height: 20px;">
+                </button>
+                <button id="hint-btn" class="btn btn-secondary" title="Hint">
+                    <img src="./lightbulb-icon.svg" alt="Hint" style="width: 20px; height: 20px;">
+                </button>
                 <button id="layout-btn" class="btn btn-secondary">Compact</button>
                 <select id="card-back-style" class="btn btn-secondary" style="padding: 8px 12px; cursor: pointer;">
                     <option value="blue-gradient">Blue Gradient</option>
@@ -89,6 +81,22 @@
                 <div class="tableau-pile" data-pile="6" id="tableau-6"></div>
             </div>
         </main>
+        
+        <!-- Game Stats - Bottom of Game Container -->
+        <div class="game-stats">
+            <div class="stat">
+                <span class="stat-label">Moves:</span>
+                <span id="move-count">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Time:</span>
+                <span id="timer">00:00</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Score:</span>
+                <span id="score">0</span>
+            </div>
+        </div>
 
         <!-- Game Over Modal -->
         <div id="game-over-modal" class="modal hidden">

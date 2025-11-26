@@ -685,8 +685,12 @@ class SolitaireGame {
         if (this.isDealing) return;
 
         this.botActive = true;
-        document.getElementById('bot-btn').textContent = 'Stop Bot';
-        document.getElementById('bot-btn').classList.replace('btn-primary', 'btn-secondary'); // Visual feedback
+        const botBtn = document.getElementById('bot-btn');
+        const botIcon = botBtn.querySelector('.bot-icon');
+        botIcon.src = './stop-icon.svg';
+        botIcon.alt = 'Stop Bot';
+        botBtn.title = 'Stop Bot';
+        // Keep same button style - just toggle the icon
 
         if (this.botInterval) clearInterval(this.botInterval);
 
@@ -697,8 +701,12 @@ class SolitaireGame {
 
     stopBot() {
         this.botActive = false;
-        document.getElementById('bot-btn').textContent = 'Start Bot';
-        document.getElementById('bot-btn').classList.replace('btn-secondary', 'btn-primary');
+        const botBtn = document.getElementById('bot-btn');
+        const botIcon = botBtn.querySelector('.bot-icon');
+        botIcon.src = './play-icon.svg';
+        botIcon.alt = 'Start Bot';
+        botBtn.title = 'Start Bot';
+        // Keep same button style - just toggle the icon
 
         if (this.botInterval) {
             clearInterval(this.botInterval);

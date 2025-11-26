@@ -66,19 +66,29 @@ body {
 
 .game-stats {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     flex-wrap: wrap;
+    justify-content: flex-end;
+    padding: 8px 12px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(26, 61, 26, 0.85);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    backdrop-filter: blur(5px);
+    z-index: 100;
 }
 
 .stat {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 2px;
+    gap: 6px;
 }
 
 .stat-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 500;
     color: #C9A961;
     text-transform: uppercase;
@@ -86,7 +96,7 @@ body {
 }
 
 .stat span:last-child {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: #FFD700;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
@@ -142,6 +152,27 @@ body {
     transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+/* Icon buttons (Undo, Hint, Bot) */
+#undo-btn,
+#hint-btn,
+#bot-btn {
+    padding: 8px 12px;
+    font-size: 1.2rem;
+    text-transform: none;
+    letter-spacing: 0;
+    min-width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#undo-btn img,
+#hint-btn img,
+#bot-btn img {
+    display: block;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .btn-primary {
