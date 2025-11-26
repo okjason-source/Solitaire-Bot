@@ -29,10 +29,15 @@ class SolitaireGame {
         this.cardsUsedThisCycle = false;
         this.lastStockSize = 0;
 
+        // Card back style preference
+        this.cardBackStyle = localStorage.getItem('cardBackStyle') || 'blue-gradient';
+
         this.initializeGame();
         this.setupEventListeners();
         // Apply initial layout mode (compact = largest cards)
         this.applyLayoutMode();
+        // Apply card back style
+        this.applyCardBackStyle();
         // Timer will be started after dealing
     }
 
@@ -832,6 +837,15 @@ class SolitaireGame {
             this.toggleLayout();
         });
 
+        // Card back style selector
+        const cardBackStyleSelect = document.getElementById('card-back-style');
+        if (cardBackStyleSelect) {
+            cardBackStyleSelect.value = this.cardBackStyle;
+            cardBackStyleSelect.addEventListener('change', (e) => {
+                this.setCardBackStyle(e.target.value);
+            });
+        }
+
         // Setup drop zones
         this.setupDropZones();
     }
@@ -1023,6 +1037,37 @@ class SolitaireGame {
         this.applyLayoutMode();
     }
 
+    // Apply card back style
+    applyCardBackStyle() {
+        const gameContainer = document.querySelector('.game-container');
+        if (gameContainer) {
+            // Remove all card back style classes
+            const styleClasses = [
+                'card-back-style-blue-gradient',
+                'card-back-style-green-gradient',
+                'card-back-style-red-gradient',
+                'card-back-style-purple-gradient',
+                'card-back-style-gold-gradient',
+                'card-back-style-stripes',
+                'card-back-style-diagonal',
+                'card-back-style-dots',
+                'card-back-style-diamonds',
+                'card-back-style-classic-blue'
+            ];
+            styleClasses.forEach(className => gameContainer.classList.remove(className));
+            
+            // Add the selected style class
+            gameContainer.classList.add(`card-back-style-${this.cardBackStyle}`);
+        }
+    }
+
+    // Set card back style
+    setCardBackStyle(style) {
+        this.cardBackStyle = style;
+        localStorage.setItem('cardBackStyle', style);
+        this.applyCardBackStyle();
+    }
+
     // Start new game
     newGame() {
         clearInterval(this.gameTimer);
@@ -1045,7 +1090,7 @@ class SolitaireGame {
         this.cardsUsedThisCycle = false;
         this.lastStockSize = 0;
         
-        // Keep layout mode when starting new game
+        // Keep layout mode and card back style when starting new game
 
         // Hide modals
         document.getElementById('game-over-modal').classList.add('hidden');
@@ -1064,13 +1109,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Register Service Worker for PWA
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js')
+            navigator.serviceWorker.register('./service-worker.js', { scope: './' })
                 .then((registration) => {
-                    console.log('ServiceWorker registration successful:', registration.scope);
+                    console.log('✅ ServiceWorker registration successful:', registration.scope);
+                    console.log('PWA ready for installation');
                 })
                 .catch((error) => {
-                    console.log('ServiceWorker registration failed:', error);
+                    console.error('❌ ServiceWorker registration failed:', error);
                 });
         });
+    } else {
+        console.warn('Service Workers are not supported in this browser');
     }
+    
+    // Log PWA installability
+    window.addEventListener('beforeinstallprompt', (e) => {
+        console.log('✅ PWA install prompt available');
+        e.preventDefault();
+        window.deferredPrompt = e;
+    });
 }); 
