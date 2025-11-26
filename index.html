@@ -14,15 +14,16 @@
     <meta name="apple-mobile-web-app-title" content="Solitaire">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="ace-cards.png">
-    <link rel="apple-touch-icon" href="ace-cards.png">
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
     
     <!-- Manifest -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
     
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fleur+De+Leah&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -49,6 +50,18 @@
                 <button id="undo-btn" class="btn btn-secondary">Undo</button>
                 <button id="hint-btn" class="btn btn-secondary">Hint</button>
                 <button id="layout-btn" class="btn btn-secondary">Compact</button>
+                <select id="card-back-style" class="btn btn-secondary" style="padding: 8px 12px; cursor: pointer;">
+                    <option value="blue-gradient">Blue Gradient</option>
+                    <option value="green-gradient">Green Gradient</option>
+                    <option value="red-gradient">Red Gradient</option>
+                    <option value="purple-gradient">Purple Gradient</option>
+                    <option value="gold-gradient">Gold Gradient</option>
+                    <option value="stripes">Blue Stripes</option>
+                    <option value="diagonal">Diagonal Lines</option>
+                    <option value="dots">Dots Pattern</option>
+                    <option value="diamonds">Diamonds</option>
+                    <option value="classic-blue">Classic Blue</option>
+                </select>
             </div>
         </header>
 

@@ -188,7 +188,6 @@ The bot uses intelligent move prioritization:
 ## 🎯 Future Enhancements
 
 Potential features for future updates:
-- Redo functionality (currently only undo is available)
 - Game state saving (localStorage)
 - Different solitaire variants
 - Sound effects

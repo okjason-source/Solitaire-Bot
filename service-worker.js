@@ -1,11 +1,14 @@
 // Service Worker for Solitaire PWA
 const CACHE_NAME = 'solitaire-billionaire-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/ace-cards.png',
+  './',
+  './index.html',
+  './styles.css',
+  './script.js',
+  './favicon.png',
+  './icon-192.png',
+  './icon-512.png',
+  './manifest.json',
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
 ];
 
@@ -67,7 +70,7 @@ self.addEventListener('fetch', (event) => {
       .catch(() => {
         // If both cache and network fail, return offline page if available
         if (event.request.destination === 'document') {
-          return caches.match('/index.html');
+          return caches.match('./index.html');
         }
       })
   );
